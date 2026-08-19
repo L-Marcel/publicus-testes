@@ -1,0 +1,26 @@
+{
+  "java.format.enabled": true,
+  "java.format.settings.url": "./formatter.xml",
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java"
+  },
+  "editor.tabSize": 2,
+  "[markdown]": {
+    "editor.tabSize": 4,
+    "editor.quickSuggestions": {
+      "other": true,
+      "comments": false,
+      "strings": true
+    }
+  },
+  "java.jdt.ls.vmargs": "-Xlog:disable -XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx4G -Xms200m",
+  "java.compile.nullAnalysis.mode": "disabled",
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "java.format.comments.enabled": true,
+  "material-icon-theme.folders.associations": {
+    "annotations": "interface"
+  }
+}
