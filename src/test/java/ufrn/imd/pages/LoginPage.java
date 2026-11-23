@@ -12,4 +12,13 @@ public class LoginPage extends GenericPage<LoginPage> {
   protected LoginPage self() {
     return this;
   }
+
+  public LoginPage login(String login, String password) {
+    this.enableAccessibility();
+    this.inputByLabel("E-mail ou login").sendKeys(login);
+    this.inputByLabel("Senha").sendKeys(password);
+    this.buttonByText("Entrar").click();
+
+    return this.self();
+  }
 }

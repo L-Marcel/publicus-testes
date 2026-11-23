@@ -10,6 +10,6 @@ public class PublicusLoginTest extends GenericWebTest {
   @Test
   void mustLogin() {
     LoginPage home = new LoginPage(driver);
-    home.navigate(url);
+    home.navigate(url).login("r", "r");
   }
 }
