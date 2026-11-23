@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import ufrn.imd.abstracts.GenericPage;
 
 public class HomePage extends GenericPage<HomePage> {
   public HomePage(WebDriver driver) {

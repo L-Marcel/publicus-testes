@@ -1,4 +1,4 @@
-package ufrn.imd.pages;
+package ufrn.imd.abstracts;
 
 import java.time.Duration;
 import java.util.LinkedHashMap;
