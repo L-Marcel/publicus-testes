@@ -8,8 +8,50 @@ public class PublicusLoginTest extends GenericWebTest {
   private final String url = "https://testeihc.imd.ufrn.br/publicus/";
 
   @Test
-  void mustLogin() {
+  void mustLoginAsRecepcionist() {
     LoginPage home = new LoginPage(driver);
-    home.navigate(url).login("r", "r");
+
+    home
+      .navigate(url)
+      .login("r", "r")
+      .menus(
+        "Início",
+        "Agendamentos",
+        "Visitas",
+        "Responsáveis",
+        "Relatórios"
+      );
+  }
+
+  @Test
+  void mustLoginAsResponsible() {
+    LoginPage home = new LoginPage(driver);
+
+    home
+      .navigate(url)
+      .login("f", "f")
+      .menus(
+        "Início",
+        "Agendamentos",
+        "Visitas"
+      );
+  }
+
+  @Test
+  void mustLoginAsAdmin() {
+    LoginPage home = new LoginPage(driver);
+
+    home
+      .navigate(url)
+      .login("administrador", "publicus")
+      .menus(
+        "Início",
+        "Agendamentos",
+        "Visitas",
+        "Responsáveis",
+        "Relatórios",
+        "Configurações",
+        "Colaboradores"
+      );
   }
 }

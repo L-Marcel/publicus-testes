@@ -2,6 +2,7 @@ package ufrn.imd.abstracts;
 
 import java.time.Duration;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import org.openqa.selenium.By;
@@ -88,8 +89,8 @@ public abstract class GenericPage<T extends GenericPage<?>> {
       ExpectedConditions.visibilityOfElementLocated(
         By.xpath(
           "//header[normalize-space(@aria-label)='" + text + "']" +
-          " | //*[@role='heading' and normalize-space()='" + text + "']" +
-          " | //flt-semantics/span[normalize-space()='" + text + "']"
+            " | //*[@role='heading' and normalize-space()='" + text + "']" +
+            " | //flt-semantics/span[normalize-space()='" + text + "']"
         )
       )
     );

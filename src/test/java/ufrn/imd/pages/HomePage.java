@@ -1,9 +1,9 @@
 package ufrn.imd.pages;
 
 import org.openqa.selenium.WebDriver;
-import ufrn.imd.abstracts.GenericPage;
+import ufrn.imd.abstracts.GenericPageWithMenu;
 
-public class HomePage extends GenericPage<HomePage> {
+public class HomePage extends GenericPageWithMenu<HomePage> {
   public HomePage(WebDriver driver) {
     super(driver);
   }
@@ -13,7 +13,8 @@ public class HomePage extends GenericPage<HomePage> {
     return this;
   }
 
-  public void menus() {
-
+  public CreateVisitPage createVisit() {
+    this.buttonByText("Cadastrar visita").click();
+    return new CreateVisitPage(driver);
   }
 }
