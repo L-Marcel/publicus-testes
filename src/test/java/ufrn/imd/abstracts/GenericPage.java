@@ -82,4 +82,16 @@ public abstract class GenericPage<T extends GenericPage<?>> {
       )
     );
   }
+
+  protected WebElement headingByText(String text) {
+    return this.until(
+      ExpectedConditions.visibilityOfElementLocated(
+        By.xpath(
+          "//header[normalize-space(@aria-label)='" + text + "']" +
+          " | //*[@role='heading' and normalize-space()='" + text + "']" +
+          " | //flt-semantics/span[normalize-space()='" + text + "']"
+        )
+      )
+    );
+  }
 }

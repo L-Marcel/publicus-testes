@@ -13,12 +13,11 @@ public class LoginPage extends GenericPage<LoginPage> {
     return this;
   }
 
-  public LoginPage login(String login, String password) {
+  public HomePage login(String login, String password) {
     this.enableAccessibility();
     this.inputByLabel("E-mail ou login").sendKeys(login);
     this.inputByLabel("Senha").sendKeys(password);
     this.buttonByText("Entrar").click();
-
-    return this.self();
+    return new HomePage(driver);
   }
 }
