@@ -30,6 +30,9 @@ public class PublicusVisitsTest extends GenericWebTest {
       .accessibilityResources("Intérprete de Libras")
       .notes("Visita cadastrada via teste automatizado (recepcionista)")
       .submit()
+      .toast("Visita cadastrada com sucesso.")
+      .recentVisitCard(7)
+      .cancel()
       .menus(
         "Início",
         "Agendamentos",
@@ -61,6 +64,9 @@ public class PublicusVisitsTest extends GenericWebTest {
       .childrenOrTeens(1)
       .notes("Visita cadastrada via teste automatizado (administrador)")
       .submit()
+      .toast("Visita cadastrada com sucesso.")
+      .recentVisitCard(4)
+      .cancel()
       .menus(
         "Início",
         "Agendamentos",

@@ -1,5 +1,6 @@
 package ufrn.imd.abstracts;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -119,5 +120,49 @@ public abstract class GenericPage<T extends GenericPage<?>> {
         )
       )
     );
+  }
+
+  protected WebElement textByContent(String text) {
+    logger.info("Searching visible text \"" + text + "\"");
+    return this.until(
+      ExpectedConditions.visibilityOfElementLocated(
+        By.xpath("//flt-semantics-host//*[normalize-space()='" + text + "']")
+      )
+    );
+  }
+
+  protected WebElement textContaining(String text) {
+    logger.info("Searching visible text containing \"" + text + "\"");
+    return this.until(
+      ExpectedConditions.visibilityOfElementLocated(
+        By.xpath("//flt-semantics-host//*[contains(normalize-space(), '" + text + "')]")
+      )
+    );
+  }
+
+  public T toast(String expectedMessage) {
+    logger.info("Searching toast \"" + expectedMessage + "\"");
+
+    WebElement toast = this.until(
+      ExpectedConditions.presenceOfElementLocated(
+        By.xpath(
+          "//*[not(self::html) and not(self::body) and not(self::flt-glass-pane) and contains(normalize-space(), '"
+            + expectedMessage + "')]" +
+            " | //*[contains(normalize-space(@aria-label), '" + expectedMessage + "')]"
+        )
+      )
+    );
+
+    String content = toast.getAttribute("textContent");
+    if (content == null || !content.contains(expectedMessage))
+      content = toast.getAttribute("aria-label");
+
+    assertTrue(
+      content != null && content.contains(expectedMessage),
+      "Expected toast containing \"" + expectedMessage + "\", but got \"" + content + "\""
+    );
+
+    logger.info("Verified toast \"" + expectedMessage + "\"");
+    return this.self();
   }
 }

@@ -84,18 +84,23 @@ public class CreateVisitPage extends GenericPage<CreateVisitPage> {
     return this;
   }
 
-  public HomePage submit() {
+  public CreateVisitPage submit() {
     this.buttonByText("Cadastrar visita").click();
     logger.info("Submitted visit creation");
-    this.buttonByText("Cancelar").click();
-    this.headingByText("Início");
-    return new HomePage(driver);
+    return this;
+  }
+
+  public CreateVisitPage recentVisitCard(int totalVisitors) {
+    String label = totalVisitors == 1 ? "1 visitante" : totalVisitors + " visitantes";
+    this.textContaining(label);
+    logger.info("Verified recent visit card with \"" + label + "\"");
+    return this;
   }
 
   public HomePage cancel() {
     this.buttonByText("Cancelar").click();
-    logger.info("Cancelled visit creation");
-    this.headingByText("Início");
+    logger.info("Cancelled visit creation to return home");
+    this.buttonByText("Solicitar agendamento de visita");
     return new HomePage(driver);
   }
 }
