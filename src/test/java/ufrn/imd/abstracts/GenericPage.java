@@ -1,6 +1,7 @@
 package ufrn.imd.abstracts;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.logging.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -50,20 +52,50 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   public <V extends Object> V until(
+    String description,
+    Function<? super WebDriver, ? extends V> isTrue
+  ) {
+    return this.until(
+      Duration.ofSeconds(10),
+      description,
+      isTrue
+    );
+  }
+
+  public <V extends Object> V until(
     Duration timeout,
     Function<? super WebDriver, ? extends V> isTrue
   ) {
+    return this.until(timeout, null, isTrue);
+  }
+
+  public <V extends Object> V until(
+    Duration timeout,
+    String description,
+    Function<? super WebDriver, ? extends V> isTrue
+  ) {
     logger.info("Waiting until " + timeout.getSeconds() + " seconds");
-    return this.waits.getOrDefault(
-      timeout,
-      new WebDriverWait(this.driver, timeout)
-    ).until(isTrue);
+    try {
+      return this.waits.computeIfAbsent(
+        timeout,
+        t -> new WebDriverWait(this.driver, t)
+      ).until(isTrue);
+    } catch (TimeoutException e) {
+      String detail = description != null
+        ? description
+        : e.getMessage() == null
+          ? "condição não satisfeita"
+          : e.getMessage().lines().findFirst().orElse("condição não satisfeita");
+
+      return fail("Timeout (" + timeout.getSeconds() + "s): " + detail);
+    }
   }
 
   public T enableAccessibility() {
     logger.info("Waiting until accessibility is enabled");
 
     this.until(
+      "acessibilidade do Flutter não foi habilitada",
       executor -> (Boolean) ((JavascriptExecutor) executor).executeScript(
         "const host = document.querySelector('flt-semantics-host');" +
           "if (host && host.children.length > 0) return true;" +
@@ -79,6 +111,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   protected WebElement inputByLabel(String ariaLabel) {
     logger.info("Searching visible input \"" + ariaLabel + "\"");
     return this.until(
+      "campo \"" + ariaLabel + "\" não encontrado",
       ExpectedConditions.visibilityOfElementLocated(
         By.cssSelector("input[aria-label='" + ariaLabel + "']")
       )
@@ -88,6 +121,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   protected WebElement textareaByLabel(String ariaLabel) {
     logger.info("Searching visible textarea \"" + ariaLabel + "\"");
     return this.until(
+      "área de texto \"" + ariaLabel + "\" não encontrada",
       ExpectedConditions.visibilityOfElementLocated(
         By.cssSelector("textarea[aria-label='" + ariaLabel + "']")
       )
@@ -103,6 +137,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   protected WebElement buttonByText(String text) {
     logger.info("Searching visible button \"" + text + "\"");
     return this.until(
+      "botão \"" + text + "\" não encontrado ou não clicável",
       ExpectedConditions.elementToBeClickable(
         By.xpath("//*[@role='button' and normalize-space()='" + text + "']")
       )
@@ -112,6 +147,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   protected WebElement headingByText(String text) {
     logger.info("Searching visible heading \"" + text + "\"");
     return this.until(
+      "título \"" + text + "\" não encontrado",
       ExpectedConditions.visibilityOfElementLocated(
         By.xpath(
           "//header[normalize-space(@aria-label)='" + text + "']" +
@@ -125,6 +161,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   protected WebElement textByContent(String text) {
     logger.info("Searching visible text \"" + text + "\"");
     return this.until(
+      "texto \"" + text + "\" não encontrado",
       ExpectedConditions.visibilityOfElementLocated(
         By.xpath("//flt-semantics-host//*[normalize-space()='" + text + "']")
       )
@@ -134,6 +171,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   protected WebElement textContaining(String text) {
     logger.info("Searching visible text containing \"" + text + "\"");
     return this.until(
+      "texto contendo \"" + text + "\" não encontrado",
       ExpectedConditions.visibilityOfElementLocated(
         By.xpath("//flt-semantics-host//*[contains(normalize-space(), '" + text + "')]")
       )
@@ -144,6 +182,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
     logger.info("Searching toast \"" + expectedMessage + "\"");
 
     WebElement toast = this.until(
+      "toast \"" + expectedMessage + "\" não apareceu",
       ExpectedConditions.presenceOfElementLocated(
         By.xpath(
           "//*[not(self::html) and not(self::body) and not(self::flt-glass-pane) and contains(normalize-space(), '"
