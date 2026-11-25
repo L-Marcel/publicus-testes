@@ -12,4 +12,90 @@ public class CreateVisitPage extends GenericPage<CreateVisitPage> {
   protected CreateVisitPage self() {
     return this;
   }
+
+  public CreateVisitPage singleVisit() {
+    this.buttonByText("Visita avulsa").click();
+    logger.info("Selected single visit");
+    return this;
+  }
+
+  public CreateVisitPage groupVisit() {
+    this.buttonByText("Visita em grupo").click();
+    logger.info("Selected group visit");
+    return this;
+  }
+
+  public CreateVisitPage visitors(int count) {
+    this.replaceText(
+      this.inputByLabel("N.º de visitantes"),
+      String.valueOf(count)
+    );
+    logger.info("Filled visitors count: " + count);
+    return this;
+  }
+
+  public CreateVisitPage childrenOrTeens(int count) {
+    this.replaceText(
+      this.inputByLabel("N.º de crianças ou adolescentes"),
+      String.valueOf(count)
+    );
+    logger.info("Filled children or teens count: " + count);
+    return this;
+  }
+
+  public CreateVisitPage specialNeedsVisitors(int count) {
+    this.replaceText(
+      this.inputByLabel("N.º de visitantes com NE"),
+      String.valueOf(count)
+    );
+    logger.info("Filled special needs visitors count: " + count);
+    return this;
+  }
+
+  public CreateVisitPage specialNeedsTypes(String types) {
+    this.replaceText(
+      this.inputByLabel("Tipos de necessidades específicas"),
+      types
+    );
+    logger.info("Filled special needs types");
+    return this;
+  }
+
+  public CreateVisitPage accessibilityResources(String resources) {
+    this.replaceText(
+      this.textareaByLabel("Recursos de acessibilidade necessários"),
+      resources
+    );
+    logger.info("Filled accessibility resources");
+    return this;
+  }
+
+  public CreateVisitPage notes(String notes) {
+    this.replaceText(this.textareaByLabel("Observações"), notes);
+    logger.info("Filled visit notes");
+    return this;
+  }
+
+  public CreateVisitPage manualDateTime(String date, String time) {
+    this.buttonByText("definição manual").click();
+    this.replaceText(this.inputByLabel("Data da visita"), date);
+    this.replaceText(this.inputByLabel("Horário da visita"), time);
+    logger.info("Filled manual date and time: " + date + " " + time);
+    return this;
+  }
+
+  public HomePage submit() {
+    this.buttonByText("Cadastrar visita").click();
+    logger.info("Submitted visit creation");
+    this.buttonByText("Cancelar").click();
+    this.headingByText("Início");
+    return new HomePage(driver);
+  }
+
+  public HomePage cancel() {
+    this.buttonByText("Cancelar").click();
+    logger.info("Cancelled visit creation");
+    this.headingByText("Início");
+    return new HomePage(driver);
+  }
 }

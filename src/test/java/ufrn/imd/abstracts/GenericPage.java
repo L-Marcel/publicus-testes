@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.logging.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -81,6 +82,21 @@ public abstract class GenericPage<T extends GenericPage<?>> {
         By.cssSelector("input[aria-label='" + ariaLabel + "']")
       )
     );
+  }
+
+  protected WebElement textareaByLabel(String ariaLabel) {
+    logger.info("Searching visible textarea \"" + ariaLabel + "\"");
+    return this.until(
+      ExpectedConditions.visibilityOfElementLocated(
+        By.cssSelector("textarea[aria-label='" + ariaLabel + "']")
+      )
+    );
+  }
+
+  protected void replaceText(WebElement element, String value) {
+    element.click();
+    element.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.BACK_SPACE);
+    element.sendKeys(value);
   }
 
   protected WebElement buttonByText(String text) {

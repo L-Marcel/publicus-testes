@@ -2,7 +2,6 @@ package ufrn.imd;
 
 import org.junit.jupiter.api.Test;
 import ufrn.imd.abstracts.GenericWebTest;
-import ufrn.imd.pages.CreateVisitPage;
 import ufrn.imd.pages.LoginPage;
 
 public class PublicusVisitsTest extends GenericWebTest {
@@ -12,21 +11,39 @@ public class PublicusVisitsTest extends GenericWebTest {
   void mustCreateVisitAsRecepcionist() {
     LoginPage home = new LoginPage(driver);
 
-    CreateVisitPage createVisit = home
+    home
       .navigate(url)
       .login("r", "r")
       .menus(
         "Início",
         "Agendamentos",
-        "Visitas"
-      ).createVisit();
+        "Visitas",
+        "Responsáveis",
+        "Relatórios"
+      )
+      .createVisit()
+      .singleVisit()
+      .visitors(5)
+      .childrenOrTeens(2)
+      .specialNeedsVisitors(1)
+      .specialNeedsTypes("Auditiva")
+      .accessibilityResources("Intérprete de Libras")
+      .notes("Visita cadastrada via teste automatizado (recepcionista)")
+      .submit()
+      .menus(
+        "Início",
+        "Agendamentos",
+        "Visitas",
+        "Responsáveis",
+        "Relatórios"
+      );
   }
 
   @Test
   void mustCreateVisitAsAdmin() {
     LoginPage home = new LoginPage(driver);
 
-    CreateVisitPage createVisit = home
+    home
       .navigate(url)
       .login("administrador", "publicus")
       .menus(
@@ -37,6 +54,21 @@ public class PublicusVisitsTest extends GenericWebTest {
         "Relatórios",
         "Configurações",
         "Colaboradores"
-      ).createVisit();
+      )
+      .createVisit()
+      .singleVisit()
+      .visitors(3)
+      .childrenOrTeens(1)
+      .notes("Visita cadastrada via teste automatizado (administrador)")
+      .submit()
+      .menus(
+        "Início",
+        "Agendamentos",
+        "Visitas",
+        "Responsáveis",
+        "Relatórios",
+        "Configurações",
+        "Colaboradores"
+      );
   }
 }
