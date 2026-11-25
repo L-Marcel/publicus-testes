@@ -74,7 +74,6 @@ public abstract class GenericPage<T extends GenericPage<?>> {
     String description,
     Function<? super WebDriver, ? extends V> isTrue
   ) {
-    logger.info("Aguardando até " + timeout.getSeconds() + " segundos");
     try {
       return this.waits.computeIfAbsent(
         timeout,
@@ -87,7 +86,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
           ? "condição não satisfeita"
           : e.getMessage().lines().findFirst().orElse("condição não satisfeita");
 
-      return fail("Timeout (" + timeout.getSeconds() + "s): " + detail);
+      return fail("Tempo limite excedido (" + timeout.getSeconds() + "s): " + detail);
     }
   }
 
