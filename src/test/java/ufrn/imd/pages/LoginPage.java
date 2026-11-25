@@ -18,6 +18,7 @@ public class LoginPage extends GenericPage<LoginPage> {
     this.inputByLabel("E-mail ou login").sendKeys(login);
     this.inputByLabel("Senha").sendKeys(password);
     this.buttonByText("Entrar").click();
+    logger.info("Logging in");
     return new HomePage(driver);
   }
 }

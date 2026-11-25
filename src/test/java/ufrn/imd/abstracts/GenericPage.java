@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.logging.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -12,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class GenericPage<T extends GenericPage<?>> {
+  public static final Logger logger = Logger.getLogger(GenericPage.class.getName());
   private Map<Duration, WebDriverWait> waits;
   protected WebDriver driver;
 
@@ -26,11 +28,13 @@ public abstract class GenericPage<T extends GenericPage<?>> {
 
   public T navigate(String url) {
     driver.get(url);
+    logger.info("Visiting " + url);
     return this.self();
   }
 
   public T timeout(Duration duration) {
     this.driver.manage().timeouts().implicitlyWait(duration);
+    logger.info("Timeout set to " + duration.getSeconds() + " seconds");
     return this.self();
   }
 
@@ -47,6 +51,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
     Duration timeout,
     Function<? super WebDriver, ? extends V> isTrue
   ) {
+    logger.info("Waiting until " + timeout.getSeconds() + " seconds");
     return this.waits.getOrDefault(
       timeout,
       new WebDriverWait(this.driver, timeout)
@@ -54,6 +59,8 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   public T enableAccessibility() {
+    logger.info("Waiting until accessibility is enabled");
+
     this.until(
       executor -> (Boolean) ((JavascriptExecutor) executor).executeScript(
         "const host = document.querySelector('flt-semantics-host');" +
@@ -68,6 +75,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   protected WebElement inputByLabel(String ariaLabel) {
+    logger.info("Searching visible input \"" + ariaLabel + "\"");
     return this.until(
       ExpectedConditions.visibilityOfElementLocated(
         By.cssSelector("input[aria-label='" + ariaLabel + "']")
@@ -76,6 +84,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   protected WebElement buttonByText(String text) {
+    logger.info("Searching visible button \"" + text + "\"");
     return this.until(
       ExpectedConditions.elementToBeClickable(
         By.xpath("//*[@role='button' and normalize-space()='" + text + "']")
@@ -84,6 +93,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   protected WebElement headingByText(String text) {
+    logger.info("Searching visible heading \"" + text + "\"");
     return this.until(
       ExpectedConditions.visibilityOfElementLocated(
         By.xpath(

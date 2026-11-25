@@ -1,6 +1,7 @@
 package ufrn.imd.abstracts;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static ufrn.imd.abstracts.GenericPage.logger;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -13,6 +14,7 @@ public abstract class GenericPageWithMenu<T extends GenericPageWithMenu<T>> exte
   }
 
   protected List<WebElement> navigationItems() {
+    logger.info("Searching visible menu items");
     return this.until(
       ExpectedConditions.visibilityOfAllElementsLocatedBy(
         By.cssSelector("[role='button'][aria-current]")

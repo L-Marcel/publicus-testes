@@ -15,6 +15,7 @@ public class HomePage extends GenericPageWithMenu<HomePage> {
 
   public CreateVisitPage createVisit() {
     this.buttonByText("Cadastrar visita").click();
+    logger.info("Creating a new visit");
     return new CreateVisitPage(driver);
   }
 }
