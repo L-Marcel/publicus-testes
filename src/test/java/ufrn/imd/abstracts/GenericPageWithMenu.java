@@ -13,7 +13,7 @@ public abstract class GenericPageWithMenu<T extends GenericPageWithMenu<T>> exte
   }
 
   protected List<WebElement> navigationItems() {
-    logger.info("Searching visible menu items");
+    logger.info("Buscando itens de menu visíveis");
     return this.until(
       "itens de menu visíveis não encontrados",
       ExpectedConditions.visibilityOfAllElementsLocatedBy(

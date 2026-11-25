@@ -32,13 +32,13 @@ public abstract class GenericPage<T extends GenericPage<?>> {
 
   public T navigate(String url) {
     driver.get(url);
-    logger.info("Visiting " + url);
+    logger.info("Acessando " + url);
     return this.self();
   }
 
   public T timeout(Duration duration) {
     this.driver.manage().timeouts().implicitlyWait(duration);
-    logger.info("Timeout set to " + duration.getSeconds() + " seconds");
+    logger.info("Tempo limite definido para " + duration.getSeconds() + " segundos");
     return this.self();
   }
 
@@ -74,7 +74,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
     String description,
     Function<? super WebDriver, ? extends V> isTrue
   ) {
-    logger.info("Waiting until " + timeout.getSeconds() + " seconds");
+    logger.info("Aguardando até " + timeout.getSeconds() + " segundos");
     try {
       return this.waits.computeIfAbsent(
         timeout,
@@ -92,7 +92,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   public T enableAccessibility() {
-    logger.info("Waiting until accessibility is enabled");
+    logger.info("Aguardando a habilitação da acessibilidade");
 
     this.until(
       "acessibilidade do Flutter não foi habilitada",
@@ -109,7 +109,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   protected WebElement inputByLabel(String ariaLabel) {
-    logger.info("Searching visible input \"" + ariaLabel + "\"");
+    logger.info("Buscando campo visível \"" + ariaLabel + "\"");
     return this.until(
       "campo \"" + ariaLabel + "\" não encontrado",
       ExpectedConditions.visibilityOfElementLocated(
@@ -119,7 +119,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   protected WebElement textareaByLabel(String ariaLabel) {
-    logger.info("Searching visible textarea \"" + ariaLabel + "\"");
+    logger.info("Buscando área de texto visível \"" + ariaLabel + "\"");
     return this.until(
       "área de texto \"" + ariaLabel + "\" não encontrada",
       ExpectedConditions.visibilityOfElementLocated(
@@ -135,7 +135,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   protected WebElement buttonByText(String text) {
-    logger.info("Searching visible button \"" + text + "\"");
+    logger.info("Buscando botão visível \"" + text + "\"");
     return this.until(
       "botão \"" + text + "\" não encontrado ou não clicável",
       ExpectedConditions.elementToBeClickable(
@@ -145,7 +145,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   protected WebElement headingByText(String text) {
-    logger.info("Searching visible heading \"" + text + "\"");
+    logger.info("Buscando título visível \"" + text + "\"");
     return this.until(
       "título \"" + text + "\" não encontrado",
       ExpectedConditions.visibilityOfElementLocated(
@@ -159,7 +159,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   protected WebElement textByContent(String text) {
-    logger.info("Searching visible text \"" + text + "\"");
+    logger.info("Buscando texto visível \"" + text + "\"");
     return this.until(
       "texto \"" + text + "\" não encontrado",
       ExpectedConditions.visibilityOfElementLocated(
@@ -169,7 +169,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   protected WebElement textContaining(String text) {
-    logger.info("Searching visible text containing \"" + text + "\"");
+    logger.info("Buscando texto visível contendo \"" + text + "\"");
     return this.until(
       "texto contendo \"" + text + "\" não encontrado",
       ExpectedConditions.visibilityOfElementLocated(
@@ -179,7 +179,7 @@ public abstract class GenericPage<T extends GenericPage<?>> {
   }
 
   public T toast(String expectedMessage) {
-    logger.info("Searching toast \"" + expectedMessage + "\"");
+    logger.info("Buscando toast \"" + expectedMessage + "\"");
 
     WebElement toast = this.until(
       "toast \"" + expectedMessage + "\" não apareceu",
@@ -198,10 +198,10 @@ public abstract class GenericPage<T extends GenericPage<?>> {
 
     assertTrue(
       content != null && content.contains(expectedMessage),
-      "Expected toast containing \"" + expectedMessage + "\", but got \"" + content + "\""
+      "Esperava toast contendo \"" + expectedMessage + "\", mas obteve \"" + content + "\""
     );
 
-    logger.info("Verified toast \"" + expectedMessage + "\"");
+    logger.info("Toast verificado \"" + expectedMessage + "\"");
     return this.self();
   }
 }

@@ -23,13 +23,13 @@ public class CreateVisitPage extends GenericPage<CreateVisitPage> {
 
   public CreateVisitPage singleVisit() {
     this.buttonByText("Visita avulsa").click();
-    logger.info("Selected single visit");
+    logger.info("Selecionada visita avulsa");
     return this;
   }
 
   public CreateVisitPage groupVisit() {
     this.buttonByText("Visita em grupo").click();
-    logger.info("Selected group visit");
+    logger.info("Selecionada visita em grupo");
     return this;
   }
 
@@ -38,7 +38,7 @@ public class CreateVisitPage extends GenericPage<CreateVisitPage> {
       this.inputByLabel("N.º de visitantes"),
       String.valueOf(count)
     );
-    logger.info("Filled visitors count: " + count);
+    logger.info("Preenchido número de visitantes: " + count);
     return this;
   }
 
@@ -47,7 +47,7 @@ public class CreateVisitPage extends GenericPage<CreateVisitPage> {
       this.inputByLabel("N.º de crianças ou adolescentes"),
       String.valueOf(count)
     );
-    logger.info("Filled children or teens count: " + count);
+    logger.info("Preenchido número de crianças ou adolescentes: " + count);
     return this;
   }
 
@@ -56,7 +56,7 @@ public class CreateVisitPage extends GenericPage<CreateVisitPage> {
       this.inputByLabel("N.º de visitantes com NE"),
       String.valueOf(count)
     );
-    logger.info("Filled special needs visitors count: " + count);
+    logger.info("Preenchido número de visitantes com NE: " + count);
     return this;
   }
 
@@ -65,7 +65,7 @@ public class CreateVisitPage extends GenericPage<CreateVisitPage> {
       this.inputByLabel("Tipos de necessidades específicas"),
       types
     );
-    logger.info("Filled special needs types");
+    logger.info("Preenchidos tipos de necessidades específicas");
     return this;
   }
 
@@ -74,7 +74,7 @@ public class CreateVisitPage extends GenericPage<CreateVisitPage> {
       this.textareaByLabel("Recursos de acessibilidade necessários"),
       resources
     );
-    logger.info("Filled accessibility resources");
+    logger.info("Preenchidos recursos de acessibilidade necessários");
     return this;
   }
 
@@ -83,7 +83,7 @@ public class CreateVisitPage extends GenericPage<CreateVisitPage> {
       this.textareaByLabel("Observações"),
       notes
     );
-    logger.info("Filled visit notes");
+    logger.info("Preenchidas observações da visita");
     return this;
   }
 
@@ -92,7 +92,7 @@ public class CreateVisitPage extends GenericPage<CreateVisitPage> {
     this.replaceText(this.inputByLabel("Data da visita"), date);
     this.replaceText(this.inputByLabel("Horário da visita"), time);
     this.visitTime = time;
-    logger.info("Filled manual date and time: " + date + " " + time);
+    logger.info("Preenchidos data e horário manuais: " + date + " " + time);
     return this;
   }
 
@@ -112,7 +112,7 @@ public class CreateVisitPage extends GenericPage<CreateVisitPage> {
     if (this.visitTime == null || this.visitTime.isBlank())
       this.visitTime = this.captureAutomaticTime();
     this.buttonByText("Cadastrar visita").click();
-    logger.info("Submitted visit creation (time: " + this.visitTime + ")");
+    logger.info("Cadastro de visita enviado (horário: " + this.visitTime + ")");
     return this;
   }
 
@@ -135,13 +135,13 @@ public class CreateVisitPage extends GenericPage<CreateVisitPage> {
       )
     );
 
-    logger.info("Verified recent visit card \"" + timeLabel + " • " + visitorsLabel + "\"");
+    logger.info("Cartão de visita recente verificado \"" + timeLabel + " • " + visitorsLabel + "\"");
     return this;
   }
 
   public HomePage cancel() {
     this.buttonByText("Cancelar").click();
-    logger.info("Cancelled visit creation to return home");
+    logger.info("Cadastro de visita cancelado para voltar ao início");
     this.buttonByText("Solicitar agendamento de visita");
     return new HomePage(driver);
   }
