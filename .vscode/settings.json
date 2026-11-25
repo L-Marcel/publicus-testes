@@ -22,5 +22,11 @@
   "java.format.comments.enabled": true,
   "material-icon-theme.folders.associations": {
     "annotations": "interface"
+  },
+  "files.exclude": {
+    "**/*.olean": true,
+    "AGENTS.md": true,
+    "src/test/java/ufrn/imd/pages/AGENTS.md": true,
+    "src/test/java/ufrn/imd/abstracts/AGENTS.md": true
   }
 }
